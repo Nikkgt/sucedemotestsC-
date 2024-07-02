@@ -4,6 +4,7 @@ using saucedemotests.ui.components.items;
 
 namespace saucedemotests.tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     public class InventoryTest : BaseTest
     {
         private InventoryPage inventoryPage;

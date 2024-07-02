@@ -1,6 +1,6 @@
 namespace saucedemotests.utils
 {
-    public static class NumberUtils
+    public static class NumberUtil
     {
         public static int GetIntFromStringWithDefault(string str, int defaultValue)
         {

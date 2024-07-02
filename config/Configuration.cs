@@ -13,14 +13,10 @@ namespace saucedemotests.config
     {
         private static readonly Configuration config = new Configuration();
         private readonly Dictionary<string, string> properties = new Dictionary<string, string>();
-        private readonly string configFilePath;
+        private const string configFilePath = "config/config.properties";
 
         private Configuration()
         {
-            string baseDirectory = Directory.GetCurrentDirectory();
-            string pattern = @"saucedemotests/.*$";
-            string replacement = "saucedemotests/config/config.properties";
-            configFilePath = Regex.Replace(baseDirectory, pattern, replacement);
             ReadProperties();
         }
 
@@ -29,10 +25,13 @@ namespace saucedemotests.config
             return config;
         }
 
-        public WebDriver GetWebDriver()
+        public string GetBrowserID(){
+            return GetPropertyValue("browserID");
+        }
+
+        public WebDriver GetWebDriver(string browserID)
         {
-            string browser = GetPropertyValue("browserType");
-            int browserId = NumberUtils.GetIntFromStringWithDefault(browser, 1);
+            int browserId = NumberUtil.GetIntFromStringWithDefault(browserID, 1);
 
             switch (browserId)
             {
