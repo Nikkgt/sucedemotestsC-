@@ -1,7 +1,9 @@
 
+using NLog;
 using OpenQA.Selenium;
 using saucedemotests.pages;
 using saucedemotests.ui.components.items;
+using saucedemotests.utils;
 
 namespace saucedemotests.ui.pages
 {
@@ -32,11 +34,15 @@ namespace saucedemotests.ui.pages
 
         public bool IsYourCartTitleeVisible()
         {
+            LoggerUtil.Info("Verify that 'Your cart' title is visible");
             return yourCartTitle.Displayed;
         }
 
-        public ItemCartComponent GetItem(int index){
-            if(index<0 || index>items.Count){
+        public ItemCartComponent GetItem(int index)
+        {
+            LoggerUtil.Info($"Retrieving a cart item at index {index}");
+            if (index < 0 || index > items.Count)
+            {
                 throw new ArgumentOutOfRangeException(nameof(index), index, "Index is out of range.");
             }
             return items[index];
@@ -44,6 +50,7 @@ namespace saucedemotests.ui.pages
 
         public ItemCartComponent GetFirstItem()
         {
+            LoggerUtil.Info("Retrieving a first cart item");
             if (items == null || items.Count == 0)
             {
                 throw new InvalidOperationException("Cannot retrieve the first item - The items list is empty.");
@@ -53,18 +60,23 @@ namespace saucedemotests.ui.pages
 
         public CartPage RemoveAllItems()
         {
-           foreach(var item in items){
-            item.ClickItemButton();
-           }
-           return this;
+            LoggerUtil.Info("Removing all items");
+            foreach (var item in items)
+            {
+                item.ClickItemButton();
+            }
+            return this;
         }
 
-        public InventoryPage ClickContinueShoppingButton(){
+        public InventoryPage ClickContinueShoppingButton()
+        {
+            LoggerUtil.Info("Clicking on the 'Continue shopping' button");
             continueShoppingButton.Click();
             return new InventoryPage(driver);
         }
 
-        public HeaderPage GetHeaderPage(){
+        public HeaderPage GetHeaderPage()
+        {
             return new HeaderPage(driver);
         }
 

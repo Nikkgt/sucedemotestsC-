@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
@@ -15,6 +14,12 @@ namespace saucedemotests.config
         private readonly Dictionary<string, string> properties = new Dictionary<string, string>();
         private const string configFilePath = "config/config.properties";
 
+        // Global variables
+        private const string browserID = "browserID";
+        private const string baseURL = "baseURL";
+        private const string headless = "headless";
+
+
         private Configuration()
         {
             ReadProperties();
@@ -25,38 +30,64 @@ namespace saucedemotests.config
             return config;
         }
 
-        public string GetBrowserID(){
-            return GetPropertyValue("browserID");
+        public string GetBrowserID()
+        {
+            return GetPropertyValue(browserID);
         }
 
+        private void SetOptions(DriverOptions options)
+        {
+            if (bool.Parse(GetPropertyValue(headless)))
+            {
+                if (options is ChromeOptions chromeOptions)
+                {
+                    chromeOptions.AddArgument(headless);
+                }
+                else if (options is FirefoxOptions firefoxOptions)
+                {
+                    firefoxOptions.AddArgument(headless);
+                }
+                else if (options is EdgeOptions edgeOptions)
+                {
+                    edgeOptions.AddArgument(headless);
+                }
+            }
+        }
         public WebDriver GetWebDriver(string browserID)
         {
             int browserId = NumberUtil.GetIntFromStringWithDefault(browserID, 1);
+
+            var coptions = new ChromeOptions();
+            SetOptions(coptions);
 
             switch (browserId)
             {
                 case (int)BrowserType.Chrome:
                     new DriverManager().SetUpDriver(new ChromeConfig());
-                    return new ChromeDriver();
+                    return new ChromeDriver(coptions);
 
                 case (int)BrowserType.Firefox:
                     new DriverManager().SetUpDriver(new FirefoxConfig());
-                    return new FirefoxDriver();
+                    var foptions = new FirefoxOptions();
+                    SetOptions(foptions);
+                    return new FirefoxDriver(foptions);
 
                 case (int)BrowserType.Edge:
                     new DriverManager().SetUpDriver(new EdgeConfig());
-                    return new EdgeDriver();
+                    var eoptions = new EdgeOptions();
+                    SetOptions(eoptions);
+                    return new EdgeDriver(eoptions);
 
                 default:
                     new DriverManager().SetUpDriver(new ChromeConfig());
-                    return new ChromeDriver();
+                    return new ChromeDriver(coptions);
 
             }
         }
 
         public string GetBaseURL()
         {
-            return GetPropertyValue("baseURL");
+            return GetPropertyValue(baseURL);
         }
 
         private void ReadProperties()

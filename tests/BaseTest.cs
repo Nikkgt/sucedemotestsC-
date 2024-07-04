@@ -1,5 +1,3 @@
-
-using AventStack.ExtentReports;
 using OpenQA.Selenium;
 using saucedemotests.config;
 using saucedemotests.ui.pages;
@@ -15,26 +13,30 @@ namespace saucedemotests.tests
         private string browserID;
         private ExtentReportUtil reportUtil;
 
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
             reportUtil = new ExtentReportUtil();
+            config = Configuration.GetInstance();
+            browserID = TestContext.Parameters.Get("browserID", config.GetBrowserID());
+            LoggerUtil.LoadConfig();
         }
         [SetUp]
         public virtual void Init()
         {
             reportUtil.CreateTest();
-            config = Configuration.GetInstance();
-            browserID = TestContext.Parameters.Get("browserID", config.GetBrowserID());
             threadLocalDriver.Value = config.GetWebDriver(browserID);
             threadLocalDriver.Value.Navigate().GoToUrl(config.GetBaseURL());
             threadLocalDriver.Value.Manage().Window.Maximize();
             loginPage = new LoginPage(threadLocalDriver.Value);
+            LoggerUtil.Info($"-- TEST [{TestContext.CurrentContext.Test.Name}] STARTED --");
         }
 
         [TearDown]
         public void Destroy()
         {
+            LoggerUtil.Info($"-- TEST [{TestContext.CurrentContext.Test.Name}] FINISHED --");
             reportUtil.GenerateRuslt(threadLocalDriver.Value);
             threadLocalDriver.Value.Quit();
         }

@@ -9,8 +9,8 @@ namespace saucedemotests.utils
 {
     public class ExtentReportUtil
     {
-        public ExtentReports extentReports { set; get; }
-        public ExtentTest test { set; get; }
+        public ExtentReports ExtentReports { set; get; }
+        public ExtentTest Test { set; get; }
         private readonly string reportPath;
 
         public ExtentReportUtil()
@@ -20,15 +20,15 @@ namespace saucedemotests.utils
             reportPath = Path.Combine(projectDirectory, "index.html");
 
             var htmlReporter = new ExtentSparkReporter(reportPath);
-            extentReports = new ExtentReports();
-            extentReports.AttachReporter(htmlReporter);
-            extentReports.AddSystemInfo("Description", "test results");
+            ExtentReports = new ExtentReports();
+            ExtentReports.AttachReporter(htmlReporter);
+            ExtentReports.AddSystemInfo("Description", "test results");
 
         }
 
         public void CreateTest()
         {
-            test = extentReports.CreateTest(TestContext.CurrentContext.Test.Name);
+            Test = ExtentReports.CreateTest(TestContext.CurrentContext.Test.Name);
         }
 
         public void GenerateRuslt(IWebDriver driver)
@@ -40,10 +40,10 @@ namespace saucedemotests.utils
 
             if (status == TestStatus.Failed)
             {
-                test.Fail("Test failed", CaptureScreenshot(driver, screenshotName));
-                test.Log(Status.Fail, TestContext.CurrentContext.Result.StackTrace);
+                Test.Fail("Test failed", CaptureScreenshot(driver, screenshotName));
+                Test.Log(Status.Fail, TestContext.CurrentContext.Result.StackTrace);
             }
-            extentReports.Flush();
+            ExtentReports.Flush();
         }
 
         private static Media CaptureScreenshot(IWebDriver driver, string screenshotName)

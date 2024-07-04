@@ -4,6 +4,7 @@ using OpenQA.Selenium.Support.UI;
 using saucedemotests.ui.components;
 using saucedemotests.ui.components.items;
 using saucedemotests.ui.pages;
+using saucedemotests.utils;
 
 namespace saucedemotests.pages
 {
@@ -31,11 +32,13 @@ namespace saucedemotests.pages
 
         public bool IsProductsTitleVisible()
         {
+            LoggerUtil.Info("Verifying visibility of the Products title");
             return productsTitle.Displayed;
         }
 
         public ItemInventoryComponent GetItem(int index)
         {
+            LoggerUtil.Info($"Retrieving an inventory item at index {index}");
             if (index < 0 || index > items.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), index, "Index is out of range.");
@@ -45,6 +48,7 @@ namespace saucedemotests.pages
 
         public ItemInventoryComponent GetFirstItem()
         {
+            LoggerUtil.Info("Retrieving a first inventory item");
             if (items == null || items.Count == 0)
             {
                 throw new InvalidOperationException("Cannot retrieve the first item - The items list is empty.");

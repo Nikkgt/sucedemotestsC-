@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using saucedemotests.pages;
+using saucedemotests.utils;
 
 namespace saucedemotests.ui.pages
 {
@@ -29,6 +30,7 @@ namespace saucedemotests.ui.pages
 
         public bool IsPageOpened()
         {
+            LoggerUtil.Info("Verifing that the Login page is opened");
             return usernameField.Displayed
             && passwordField.Displayed
             && loginButton.Displayed
@@ -37,6 +39,7 @@ namespace saucedemotests.ui.pages
 
         public InventoryPage ValidLogIn(string username, string password)
         {
+            LoggerUtil.Info($"Log in with the credentials: {username} and {password}");
             usernameField.SendKeys(username);
             passwordField.SendKeys(password);
             loginButton.Click();
@@ -46,6 +49,7 @@ namespace saucedemotests.ui.pages
 
         public string InvalidLogInAndGetError(string username, string password)
         {
+            LoggerUtil.Info($"Invalid Log in with the credentials: {username} and {password}");
             usernameField.SendKeys(username);
             passwordField.SendKeys(password);
             loginButton.Click();
@@ -55,24 +59,28 @@ namespace saucedemotests.ui.pages
 
         public string GetErrorMessageText()
         {
+            LoggerUtil.Info("Retrieving an error message");
             errorMessage = FindElement(errorMessageLoc);
             return errorMessage.Text;
         }
 
         public LoginPage EnterUsername(string username)
         {
+            LoggerUtil.Info($"Entering the {username} username");
             usernameField.SendKeys(username);
             return this;
         }
 
-        public LoginPage EnterPassword(string username)
+        public LoginPage EnterPassword(string password)
         {
-            passwordField.SendKeys(username);
+            LoggerUtil.Info($"Entering the {password} password");
+            passwordField.SendKeys(password);
             return this;
         }
 
         public BasePage ClickLoginButton()
         {
+            LoggerUtil.Info($"Clicking on the Login button");
             loginButton.Click();
             if (IsPageOpened())
             {

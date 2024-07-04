@@ -152,3 +152,5 @@
 /Users/mykolaseglianik/Desktop/testPrograms/saucedemotests/obj/Debug/net8.0/saucedemotests.pdb
 /Users/mykolaseglianik/Desktop/testPrograms/saucedemotests/obj/Debug/net8.0/saucedemotests.genruntimeconfig.cache
 /Users/mykolaseglianik/Desktop/testPrograms/saucedemotests/obj/Debug/net8.0/ref/saucedemotests.dll
+/Users/mykolaseglianik/Desktop/testPrograms/saucedemotests/bin/Debug/net8.0/NLog.dll
+/Users/mykolaseglianik/Desktop/testPrograms/saucedemotests/bin/Debug/net8.0/config/nlog.config

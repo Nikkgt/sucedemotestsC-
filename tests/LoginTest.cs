@@ -6,7 +6,7 @@ using saucedemotests.utils;
 
 namespace saucedemotests.tests
 {
-    [Parallelizable(ParallelScope.Fixtures)]
+    [Parallelizable(ParallelScope.All)]
     public class LoginTest : BaseTest
     {
         private const string invalidCredsErrorText = "Epic sadface: Username and password do not match any user in this service";
@@ -19,7 +19,7 @@ namespace saucedemotests.tests
         public void ValidLoginTest()
         {
             var validCreds = UserProvider.GetStandardUser();
-            var inventroyPage = loginPage.ValidLogIn(validCreds.Item1, "validCreds.Item2");
+            var inventroyPage = loginPage.ValidLogIn(validCreds.Item1, validCreds.Item2);
 
             Assert.That(inventroyPage.IsProductsTitleVisible(), Is.True, "The 'Products' title should be visible");
         }
@@ -70,7 +70,6 @@ namespace saucedemotests.tests
         private static object[] GetTestUserDataForLogin()
         {
             JsonReaderUtil jsonReader = new("testdata/users.json");
-            TestContext.Progress.WriteLine(jsonReader.JContent);
             UsersPOCO users = JsonConvert.DeserializeObject<UsersPOCO>(jsonReader.JContent);
 
             var testCases = new object[users.Users.Count];

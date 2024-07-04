@@ -1,4 +1,5 @@
 using OpenQA.Selenium;
+using saucedemotests.utils;
 
 namespace saucedemotests.ui.pages
 {
@@ -24,12 +25,16 @@ namespace saucedemotests.ui.pages
             cartItemsCounter = FindElement(cartItemsCountLocator);
         }
 
-        public CartPage ClickCartButton(){
+        public CartPage ClickCartButton()
+        {
+            LoggerUtil.Info("Clicking on the Cart button");
             cartButton.Click();
             return new CartPage(driver);
         }
 
-        public string GetCartItemsCount(){
+        public string GetCartItemsCount()
+        {
+            LoggerUtil.Info("Retrieving amount of items in the cart");
             return cartItemsCounter.Text;
         }
 
